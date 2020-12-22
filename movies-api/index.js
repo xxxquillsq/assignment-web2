@@ -6,34 +6,38 @@ import './db';
 import {loadUsers} from './seedData';
 import usersRouter from './api/users';
 
-
 dotenv.config();
 
 const app = express();
 
+// eslint-disable-next-line no-undef
 const port = process.env.PORT;
 
-//Users router
-app.use('/api/users', usersRouter);
-
+// eslint-disable-next-line no-unused-vars
 const errHandler = (err, req, res, next) => {
   /* if the error in development then send stack trace to display whole error,
   if it's in production then just send error message  */
+  // eslint-disable-next-line no-undef
   if(process.env.NODE_ENV === 'production') {
     return res.status(500).send(`Something went wrong!`);
   }
   res.status(500).send(`Hey!! You caught the error 👍👍, ${err.stack} `);
 };
+
+
+// eslint-disable-next-line no-undef
 if (process.env.SEED_DB) {
   loadUsers();
 }
-app.use(express.static('public'));
-//configure body-parser
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-
+app.use(express.static('public'));
 app.use('/api/movies', moviesRouter);
+//Users router
+app.use('/api/users', usersRouter);
 app.use(errHandler);
+
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
