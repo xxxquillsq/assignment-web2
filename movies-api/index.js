@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
+import genresRouter from './api/genres';//exercise
 import bodyParser from 'body-parser';
 import './db';
 import {loadUsers} from './seedData';
@@ -34,6 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.static('public'));
 app.use('/api/movies', moviesRouter);
+app.use('/api/genres',genresRouter);//exercise
 //Users router
 app.use('/api/users', usersRouter);
 app.use(errHandler);
