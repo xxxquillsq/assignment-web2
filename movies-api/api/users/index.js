@@ -18,7 +18,10 @@ router.post('/', async (req, res, next) => {
       msg: 'Please pass username and password.',
     });
   }
-  if (req.query.action === 'register') {
+  
+  const regularExpression = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
+  
+  if (regularExpression.test(req.body.password)){
     await User.create(req.body).catch(next);
     res.status(201).json({
       code: 201,
@@ -26,7 +29,7 @@ router.post('/', async (req, res, next) => {
     });
   } else {
     const user = await User.findByUserName(req.body.username).catch(next);
-      if (!user) return res.status(401).json({ code: 401, msg: 'Authentication failed. User not found.' });
+    if (!user) return res.status(401).json({ code: 401, msg: 'Authentication failed. User not found.' });
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (isMatch && !err) {
           // if user is found and password is right create a token
@@ -64,9 +67,17 @@ router.post('/:userName/favourites', async (req, res, next) => {
   const userName = req.params.userName;
   const movie = await movieModel.findByMovieDBId(newFavourite);
   const user = await User.findByUserName(userName);
+  if(user.favourites.includes(movie._id)){
+    res.status(401).json({
+       code:401,
+       msg: 'This movie has been added'
+    });
+  }
+  else{
   await user.favourites.push(movie._id);
   await user.save(); 
-  res.status(201).json(user); 
+  res.status(201).json(user).catch(next); 
+  }
 });
 
 router.get('/:userName/favourites', (req, res, next) => {
