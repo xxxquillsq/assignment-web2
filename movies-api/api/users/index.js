@@ -18,7 +18,7 @@ router.post('/', async (req, res, next) => {
       msg: 'Please pass username and password.',
     });
   }
-  
+  if (req.query.action === 'register') {
   const regularExpression = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
   
   if (regularExpression.test(req.body.password)){
@@ -27,6 +27,12 @@ router.post('/', async (req, res, next) => {
       code: 201,
       msg: 'Successful created new user.',
     });
+  }else{
+    res.status(401).json({
+      code: 401,
+      msg: 'Check your password format.'
+    });
+  }
   } else {
     const user = await User.findByUserName(req.body.username).catch(next);
     if (!user) return res.status(401).json({ code: 401, msg: 'Authentication failed. User not found.' });
