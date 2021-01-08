@@ -26,3 +26,12 @@ export const getMovies = () => {
     }
     ).then(res => res.json());
   };
+
+  export const getPopulerPerson = () => {
+    return fetch(
+       '/api/persons',{headers: {
+         'Authorization': window.localStorage.getItem('token')
+      }
+    }
+    ).then(res => res.json());
+  };

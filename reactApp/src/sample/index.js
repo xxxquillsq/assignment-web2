@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Redirect, Switch, Link } from "react-router-dom";
-import { PublicPage, Movies, Profile, HomePage } from "./pages";
+import { PublicPage, Movies, Profile, HomePage , Persons} from "./pages";
 import LoginPage from "./loginPage";
 import SignUpPage from "./signUpPage";
 import PrivateRoute from "./privateRoute";
 import AuthHeader from "./authHeader";
 import AuthProvider from "./authContext";
 import MovieProvider from "./moviesContext";
+import PersonProvider from "./personsContext";
 
 const App = () => {
   return (
@@ -25,19 +26,25 @@ const App = () => {
             <Link to="/movies">Movies</Link>
           </li>
           <li>
+            <Link to="/persons">Persons</Link>
+          </li>
+          <li>
             <Link to="/profile">Profile</Link>
           </li>
         </ul>
         <MovieProvider>
+       < PersonProvider>
         <Switch>
           <Route path="/public" component={PublicPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignUpPage} />,
           <Route exact path="/" component={HomePage} />
           <PrivateRoute path="/movies" component={Movies} />
+          <PrivateRoute path="/persons" component={Persons} />
           <PrivateRoute path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
         </Switch>
+       </ PersonProvider>
         </MovieProvider>
       </AuthProvider>
     </BrowserRouter>

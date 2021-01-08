@@ -1,6 +1,7 @@
 import React from 'react';
 import { useContext} from 'react';
 import { MoviesContext } from './moviesContext';
+import { PersonsContext } from './personsContext';
 
 export const PublicPage = () => {
     return <h2>Public page</h2>
@@ -14,6 +15,17 @@ export const PublicPage = () => {
         </div>
     </>
  }
+
+ export const Persons = () => {
+    const context = useContext(PersonsContext);
+    return <>
+        <h2>Persons Data </h2>
+        <div>
+            {context.persons.map(person => { return <>{person.id},{person.name}<br /></> })}
+        </div>
+    </>
+ }
+
  export const Profile = () => {
     return <h2>My Profile </h2>
 }
