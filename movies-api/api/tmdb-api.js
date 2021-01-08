@@ -61,7 +61,7 @@ export const getMovies = () => {
    
   export const getPerson = id => {
     return fetch(
-      `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/person/${id}?api_key=ac30d257ab5fd18bd93513cf9e6e27b9&language=en-US`
     )
       .then(res => res.json());
   };
