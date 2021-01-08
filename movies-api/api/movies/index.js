@@ -30,7 +30,9 @@ router.get('/:id/reviews', (req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 router.get('/:id/similar', (req, res, next) => {
   const id = parseInt(req.params.id);
-  getSimilarMovies(id).then(similarMovies => res.status(200).send(similarMovies));
+  getSimilarMovies(id)
+  .then(similarMovies => res.status(200).send(similarMovies))
+  .catch((error)=> next(error));
 });//ca
 
 

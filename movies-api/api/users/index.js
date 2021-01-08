@@ -92,5 +92,31 @@ router.get('/:userName/favourites', (req, res, next) => {
     user => res.status(201).json(user.favourites)
   ).catch(next);
 });
-  
+
+//Add a watchlist. No Error Handling Yet.
+router.post('/:userName/watchlist', async (req, res, next) => {
+  const newWatchList = req.body.id;
+  const userName = req.params.userName;
+  const movie = await movieModel.findByMovieDBId(newWatchList);
+  const user = await User.findByUserName(userName);
+  if(user.watchlist.includes(movie._id)){
+    res.status(401).json({
+       code:401,
+       msg: 'This movie has been added'
+    });
+  }
+  else{
+  await user.watchlist.push(movie._id);
+  await user.save(); 
+  res.status(201).json(user).catch(next); 
+  }
+});
+
+router.get('/:userName/watchlist', (req, res, next) => {
+  const userName = req.params.userName;
+  User.findByUserName(userName).populate('watchlist').then(
+    user => res.status(201).json(user.watchlist)
+  ).catch(next);
+});
+
 export default router;
