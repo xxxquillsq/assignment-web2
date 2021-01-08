@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
+import similarMoviesRouter from './api/movies';//ca
 import {loadUsers, loadMovies} from './seedData';
 import genresRouter from './api/genres';//exercise
 import bodyParser from 'body-parser';
@@ -48,9 +49,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.static('public'));
 
-app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
+app.use('/api/movies', moviesRouter);//delete passport.authenticate('jwt', {session: false}), 
 
 app.use('/api/genres',genresRouter);//exercise
+app.use('/api/movie/:id/similar', similarMoviesRouter);//ca
+
 //Users router
 app.use('/api/users', usersRouter);
 app.use(errHandler);

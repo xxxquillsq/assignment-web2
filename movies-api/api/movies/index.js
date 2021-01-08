@@ -1,7 +1,7 @@
 import express from 'express';
 import {
-   getMovie, getMovieReviews
-} from '../tmdb-api';
+   getMovie, getMovieReviews, getSimilarMovies
+} from '../tmdb-api'; // ca add 
 import movieModel from './movieModel';
 
 const router = express.Router();
@@ -26,5 +26,12 @@ router.get('/:id/reviews', (req, res, next) => {
   .then(reviews => res.status(200).send(reviews))
   .catch((error) => next(error));
 });
+
+// eslint-disable-next-line no-unused-vars
+router.get('/:id/similar', (req, res, next) => {
+  const id = parseInt(req.params.id);
+  getSimilarMovies(id).then(similarMovies => res.status(200).send(similarMovies));
+});//ca
+
 
 export default router;
