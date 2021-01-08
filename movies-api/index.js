@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
-
+import topratedRouter from './api/topratedMovies';
+import upcomingRouter from './api/upcomingMovies';
 import personsRouter from './api/persons';//ca
-import {loadUsers, loadMovies, loadPersons} from './seedData';
+import {loadUsers, loadMovies, loadPersons, loadTopratedMovies, loadUpcomingMovies} from './seedData';
 import genresRouter from './api/genres';//exercise
 import bodyParser from 'body-parser';
 import './db';
@@ -47,6 +48,8 @@ if (process.env.SEED_DB) {
   loadUsers();
   loadMovies();
   loadPersons();
+  loadTopratedMovies();
+  loadUpcomingMovies();
 }
 
 //session middleware
@@ -63,7 +66,8 @@ app.use(bodyParser.urlencoded());
 app.use(express.static('public'));
 
 app.use('/api/movies', moviesRouter);//delete passport.authenticate('jwt', {session: false}), 
-
+app.use('/api/toprated',topratedRouter);
+app.use('/api/upcoming',upcomingRouter);
 app.use('/api/genres',genresRouter);//exercise
 
 app.use('/api/persons',personsRouter);//ca
