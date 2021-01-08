@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
 import similarMoviesRouter from './api/movies';//ca
-import {loadUsers, loadMovies} from './seedData';
+import personsRouter from './api/persons';//ca
+import {loadUsers, loadMovies, loadPersons} from './seedData';
 import genresRouter from './api/genres';//exercise
 import bodyParser from 'body-parser';
 import './db';
@@ -34,6 +35,7 @@ const errHandler = (err, req, res, next) => {
 if (process.env.SEED_DB) {
   loadUsers();
   loadMovies();
+  loadPersons();
 }
 
 //session middleware
@@ -53,6 +55,7 @@ app.use('/api/movies', moviesRouter);//delete passport.authenticate('jwt', {sess
 
 app.use('/api/genres',genresRouter);//exercise
 app.use('/api/movie/:id/similar', similarMoviesRouter);//ca
+app.use('/api/persons',personsRouter);//ca
 
 //Users router
 app.use('/api/users', usersRouter);
