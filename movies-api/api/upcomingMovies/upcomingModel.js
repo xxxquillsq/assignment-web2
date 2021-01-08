@@ -34,3 +34,5 @@ const UpcomingMoviesSchema = new Schema({
 UpcomingMoviesSchema.statics.findByUpcomingMoviesDBId = function (id) {
   return this.findOne({ id: id });
 };
+
+export default mongoose.model('UpcomingMovies', UpcomingMoviesSchema);
