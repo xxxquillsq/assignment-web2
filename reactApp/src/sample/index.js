@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Redirect, Switch, Link } from "react-router-dom";
-import { PublicPage, Movies, Profile, HomePage , Persons} from "./pages";
+import { PublicPage, Movies, Profile, HomePage , Persons, UpcomingMovies, TopratedMovies} from "./pages";
 import LoginPage from "./loginPage";
 import SignUpPage from "./signUpPage";
 import PrivateRoute from "./privateRoute";
 import AuthHeader from "./authHeader";
 import AuthProvider from "./authContext";
 import MovieProvider from "./moviesContext";
+import UpcomingMoviesProvider from "./upcomingMoviesContext";
+import TopratedMoviesProvider from "./topratedMoviesContext";
 import PersonProvider from "./personsContext";
 
 const App = () => {
@@ -26,6 +28,12 @@ const App = () => {
             <Link to="/movies">Movies</Link>
           </li>
           <li>
+            <Link to="/toprated">Toprated</Link>
+          </li>
+          <li>
+            <Link to="/upcoming">Upcoming</Link>
+          </li>
+          <li>
             <Link to="/persons">Persons</Link>
           </li>
           <li>
@@ -34,16 +42,22 @@ const App = () => {
         </ul>
         <MovieProvider>
        < PersonProvider>
+       <UpcomingMoviesProvider>
+       <TopratedMoviesProvider>
         <Switch>
           <Route path="/public" component={PublicPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignUpPage} />,
           <Route exact path="/" component={HomePage} />
           <PrivateRoute path="/movies" component={Movies} />
+          <PrivateRoute path="/upcoming" component={UpcomingMovies} />
+          <PrivateRoute path="/toprated" component={TopratedMovies} />
           <PrivateRoute path="/persons" component={Persons} />
           <PrivateRoute path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
         </Switch>
+        </TopratedMoviesProvider>
+        </UpcomingMoviesProvider>
        </ PersonProvider>
         </MovieProvider>
       </AuthProvider>
