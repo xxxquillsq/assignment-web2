@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
-import similarMoviesRouter from './api/movies';//ca
+
 import personsRouter from './api/persons';//ca
 import {loadUsers, loadMovies, loadPersons} from './seedData';
 import genresRouter from './api/genres';//exercise
@@ -10,14 +10,21 @@ import './db';
 import usersRouter from './api/users';
 import session from 'express-session';
 import passport from './authenticate';
-
+import loglevel from 'loglevel';
 
 dotenv.config();
 
-const app = express();
 
-// eslint-disable-next-line no-undef
-const port = process.env.PORT;
+//test add
+if (process.env.NODE_ENV === 'test') {
+  loglevel.setLevel('warn')
+} else {
+  loglevel.setLevel('info')
+}
+
+if (process.env.SEED_DB === 'true' && process.env.NODE_ENV === 'development') {
+  loadUsers();
+}// test end
 
 // eslint-disable-next-line no-unused-vars
 const errHandler = (err, req, res, next) => {
@@ -30,6 +37,10 @@ const errHandler = (err, req, res, next) => {
   res.status(500).send(`Hey!! You caught the error 👍👍, ${err.stack} `);
 };
 
+const app = express();
+
+// eslint-disable-next-line no-undef
+const port = process.env.PORT;
 
 // eslint-disable-next-line no-undef
 if (process.env.SEED_DB) {
@@ -54,7 +65,7 @@ app.use(express.static('public'));
 app.use('/api/movies', moviesRouter);//delete passport.authenticate('jwt', {session: false}), 
 
 app.use('/api/genres',genresRouter);//exercise
-app.use('/api/movie/:id/similar', similarMoviesRouter);//ca
+
 app.use('/api/persons',personsRouter);//ca
 
 //Users router
@@ -62,6 +73,12 @@ app.use('/api/users', usersRouter);
 app.use(errHandler);
 //update /api/Movie route
 
-app.listen(port, () => {
-  console.info(`Server running at ${port}`);
+// app.listen(port, () => {
+//   console.info(`Server running at ${port}`);
+// });
+
+let server = app.listen(port, () => {
+  loglevel.info(`Server running at ${port}`);
 });
+
+module.exports = server

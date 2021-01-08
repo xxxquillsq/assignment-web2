@@ -1,5 +1,5 @@
 import express from 'express';
-import {getPerson
+import {getPerson,  getPersonMovie_credits
  
 } from '../tmdb-api'; // ca add 
 import personModel from './personModel';
@@ -19,7 +19,13 @@ router.get('/:id', (req, res, next) => {
     
 });
 
-
+// eslint-disable-next-line no-unused-vars
+router.get('/:id/movie_credits', (req, res, next) => {
+  const id = parseInt(req.params.id);
+  getPersonMovie_credits(id)
+  .then(credits => res.status(200).send(credits))
+  .catch((error) => next(error));
+});
 
 
 module.exports= router;
