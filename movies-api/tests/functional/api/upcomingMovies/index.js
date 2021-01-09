@@ -7,11 +7,11 @@ let api;
 let token;
 
 const sampleMovie = {
-  id: 337401,
-  title: "Mulan",
+  id: 529203,
+  title:"The Croods: A New Age",
 };
 
-describe("Movies endpoint", () => {
+describe("upcomingMovies endpoint", () => {
   beforeEach(function(done) {
     this.timeout(6000)
     try {
@@ -37,10 +37,10 @@ describe("Movies endpoint", () => {
     api.close(); // Release PORT 8080
     delete require.cache[require.resolve("../../../../index")];
   });
-  describe("GET /movies ", () => {
-    it("should return 20 movies and a status 200", (done) => {
+  describe("GET /upcoming ", () => {
+    it("should return 20 upcoming movies and a status 200", (done) => {
       request(api)
-        .get("/api/movies")
+        .get("/api/upcoming")
         .set("Accept", "application/json")
         .set("Authorization",token)
         .expect("Content-Type", /json/)
@@ -53,11 +53,11 @@ describe("Movies endpoint", () => {
     });
   });
 
-  describe("GET /movies/:id", () => {
+  describe("GET /upcoming/:id", () => {
     describe("when the id is valid", () => {
       it("should return the matching movie", () => {
         return request(api)
-          .get(`/api/movies/${sampleMovie.id}`)
+          .get(`/api/upcoming/${sampleMovie.id}`)
           .set("Accept", "application/json")
           .expect("Content-Type", /json/)
           .expect(200)
@@ -69,7 +69,7 @@ describe("Movies endpoint", () => {
     describe("when the id is invalid", () => {
       it("should return the NOT found message", () => {
         return request(api)
-          .get("/api/movies/xxx")
+          .get("/api/upcoming/xxx")
           .set("Accept", "application/json")
           .expect("Content-Type", /json/)
           .expect({

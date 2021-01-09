@@ -65,17 +65,48 @@ describe("Users endpoint", () => {
     });
   });
 
+
   describe("POST / ", () => {
     it("should return a 200 status and the confirmation message", () => {
       return request(api)
-        .post("/api/users")
+        .post("/api/users?action=register")
         .send({
           username: "user3",
           password: "test3",
         })
-        .expect(200)
-        .expect({ success: true, token: "FakeTokenForNow" });
+        .expect(201)
+        // .end((err,res) =>{
+        //   expect (res.body.msg).to.equal('Created');
+        // });
+        // .expect({ success: true, token: "FakeTokenForNow" });
     });
+
+    // describe("user login tests",()=>{
+    //   describe("invaild login" ,() => {
+
+    //     it("should return a 200 status and the error message", () => {
+          
+    //     })
+
+    //     it("should display movies with 'o' in the title", () => {
+          
+    //     })
+
+    //     it("should can not find movies with 'xyz' in the title", () => {
+          
+    //     })
+    //   });
+
+    //   describe("vaild", () => {
+    //     it("should display movies with the specified genre only", () => {
+        
+    //     });
+
+    //   });
+
+    // });
+
+
     after(() => {
       return request(api)
         .get("/api/users")

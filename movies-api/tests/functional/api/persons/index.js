@@ -6,12 +6,13 @@ const expect = chai.expect;
 let api;
 let token;
 
-const sampleMovie = {
-  id: 337401,
-  title: "Mulan",
+const samplePerson = {
+  id: 1813,
+  name: "Anne Hathaway",
+  movie_credits_title: "Becoming Jane",
 };
 
-describe("Movies endpoint", () => {
+describe("Persons endpoint", () => {
   beforeEach(function(done) {
     this.timeout(6000)
     try {
@@ -37,10 +38,10 @@ describe("Movies endpoint", () => {
     api.close(); // Release PORT 8080
     delete require.cache[require.resolve("../../../../index")];
   });
-  describe("GET /movies ", () => {
-    it("should return 20 movies and a status 200", (done) => {
+  describe("GET /persons ", () => {
+    it("should return 20 persons and a status 200", (done) => {
       request(api)
-        .get("/api/movies")
+        .get("/api/persons")
         .set("Accept", "application/json")
         .set("Authorization",token)
         .expect("Content-Type", /json/)
@@ -53,23 +54,23 @@ describe("Movies endpoint", () => {
     });
   });
 
-  describe("GET /movies/:id", () => {
+  describe("GET /persons/:id", () => {
     describe("when the id is valid", () => {
-      it("should return the matching movie", () => {
+      it("should return the matching person", () => {
         return request(api)
-          .get(`/api/movies/${sampleMovie.id}`)
+          .get(`/api/persons/${samplePerson.id}`)
           .set("Accept", "application/json")
           .expect("Content-Type", /json/)
           .expect(200)
           .then((res) => {
-            expect(res.body).to.have.property("title", sampleMovie.title);
+            expect(res.body).to.have.property("name", samplePerson.name);
           });
       });
     });
     describe("when the id is invalid", () => {
       it("should return the NOT found message", () => {
         return request(api)
-          .get("/api/movies/xxx")
+          .get("/api/persons/xxx")
           .set("Accept", "application/json")
           .expect("Content-Type", /json/)
           .expect({
@@ -80,4 +81,21 @@ describe("Movies endpoint", () => {
       });
     });
   });
+
+  describe("GET /persons/:id/movie_credits", () => {
+    describe("when the id is valid", () => {
+      it("should return a array of movie_credits data", () => {
+        return request(api)
+          .get(`/api/persons/${samplePerson.id}/movie_credits`)
+          .set("Accept", "application/json")
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.a("array");
+          });
+      });
+    });
+  
+  });
+
 });
