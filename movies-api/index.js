@@ -65,12 +65,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.static('public'));
 
-app.use('/api/movies', moviesRouter);//delete passport.authenticate('jwt', {session: false}), 
-app.use('/api/toprated',topratedRouter);
-app.use('/api/upcoming',upcomingRouter);
+app.use('/api/movies');//delete , passport.authenticate('jwt', {session: false})
+app.use('/api/toprated');
+app.use('/api/upcoming');
 app.use('/api/genres',genresRouter);//exercise
 
-app.use('/api/persons',personsRouter);//ca
+app.use('/api/persons');//ca
 
 //Users router
 app.use('/api/users', usersRouter);

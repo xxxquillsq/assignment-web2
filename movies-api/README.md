@@ -1,3 +1,83 @@
+# Assignment 2 - Agile Software Practice.
+
+Name: Qing Sheng
+
+## Target Web API.
+
+
++ Get  /api/movies - returns an array of movie objects.
++ Get  /api/movies/{movieid} - returns detailed information on a specific movie.
++ Get  /api/movies/{movieid}/reviews  - Get all reviews for movie
++ Get  /api/persons - returns an array of popular person objects.
++ Get  /api/persons/{personid} - returns detailed information on a specific person.
++ Get /api/persons/{personid}/movie_credits - return a list of movie credits of a person.
++ Get  /api/upcomingMovies - returns an array of upcoming movie objects.
++ Get  /api/topratedMovies - returns an array of toprated movie objects.
++ Get  /api/users - returns an array of user objects.
++ Post /api/users - Register or authenticate a user and add a new user into database
++ Get  /api/users/{userName}/favourites - returns an array of user favpurites movies.
++ Post  /api/users/{userName}/favourites- post a movie to user favourite list
++ Get  /api/users/{userName}/watchlist - returns an array of user watchlist movies.
++ Post  /api/users/{userName}/watchlist- post a movie to user watchlist list
+
+## Error/Exception Testing.
+
+
+
+tests/functional/api/movies/index.js :
++ Get  /api/movies - test get movies when the user was not authorized. test get matching movies when user has authentication.  
++ Get  /api/movies/{movieid} - test get matching movies when the movieid is valid. test get movies when the movieid is invalid.
++ Get  /api/movies/{movieid}/reviews  - test get matching reviews when the movieid is valid.
+
+tests/functional/api/persons/index.js :
++ Get  /api/persons - test get popular persons when the user was authorized. test get popular persons when user was not authorized.
++ Get  /api/persons/{personid} - test get specific person when the personid is valid. test get persons when the personid is invalid.
++ Get /api/persons/{personid}/movie_credits - test get specific person’s movie credits when the personid is valid.
+  
+tests/functional/api/upcoming/index.js :
++ Get  /api/upcoming - test get upcoming movies when the user was authorized. 
++ Get  /api/upcoming/{movieid} - test get matching upcoming movies when user was authentication with valid movieid. test get upcoming matching movies when user was authentication with invalid movieid.
+
+tests/functional/api/toprated/index.js :
++ Get  /api/toprated - test get toprated movies when the user was authorized. 
++ Get  /api/toprated/{movieid} - test get matching toprated movies when user was authentication with valid movieid. test get matching toprated movies when user was authentication with invalid movieid.
+
+tests/functional/api/users/index.js :
++ Get  /api/users - test get users list 
++ Post /api/users - test create a user with a invaild password, test create user with a right username but a wrong password, test create successfully with a userrname and vaild password.
+
++ Get  /api/users/{userName}/favourites - test get users favourites list with vaild username
++ Post  /api/users/{userName}/favourites- test post a movie to favourites list with vaild movie id, test post a movie to list with a included id in list 
++ Get  /api/users/{userName}/watchlist - test get users favourites list with vaild username
++ Post  /api/users/{userName}/watchlist- test post a movie to wathclist with vaild movie id, test post a movie to list with a included id in watchlist
+
+## Continuous Delivery/Deployment.
+
+URLs for the staging and production deployments of web API
+
++ https://git.heroku.com/agile2-movies-api-staging.git - Staging deployment
++ https://git.heroku.com/agile2-movies-api-production.git - Production
+
+Screenshots from the overview page for the two Heroku apps 
+
++ Staging app overview 
+
+![][stagingapp]
+
++ Production app overview 
+
+![][productionapp]
+
+
+
+
+
+[stagingapp]: ./img/stagingapp.png
+[productionapp]: ./img/productionapp.png
+
+
+
+
 # Assignment 2 - Web API.
 
 Name: Qing Sheng
@@ -190,4 +270,3 @@ export const getUpcomingMovies = () => {
 + Feature 3 - Extensive data hyperlinking.
 + Feature 4 - Storybook support.
 + Feature 5 - Styled Components 3rd party components.
-

@@ -4,6 +4,8 @@ file:
     - 'tests/functional/api/topratedMovies/index.js'
     - 'tests/functional/api/upcomingMovies/index.js'
     - 'tests/functional/api/persons/index.js'
+    # - 'tests/functional/api/usersFavourites/index.js'
+    # - 'tests/functional/api/usersWatchlist/index.js'
 require: '@babel/register'
 exit: true
 timeout: 4000

@@ -7,8 +7,8 @@ let api;
 let token;
 
 const sampleMovie = {
-  id: 337401,
-  title: "Mulan",
+  id: 577922,
+  title: "Tenet",
 };
 
 describe("Movies endpoint", () => {
@@ -51,6 +51,17 @@ describe("Movies endpoint", () => {
           done();
         });
     });
+    it("should not return 20 movies and get an error massage", () => {
+      request(api)
+        .get("/api/movies")
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect({
+          success: false,
+          status_code: 34,
+          status_message: "The resource you requested could not be found.",
+        });
+    });
   });
 
   describe("GET /movies/:id", () => {
@@ -59,6 +70,7 @@ describe("Movies endpoint", () => {
         return request(api)
           .get(`/api/movies/${sampleMovie.id}`)
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect(200)
           .then((res) => {
@@ -71,6 +83,7 @@ describe("Movies endpoint", () => {
         return request(api)
           .get("/api/movies/xxx")
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect({
             success: false,
@@ -80,4 +93,24 @@ describe("Movies endpoint", () => {
       });
     });
   });
+
+  describe("GET /movies/:id/reviews", () => {
+    describe("when the id is valid", () => {
+      it("should return the matching movie reviews", () => {
+        return request(api)
+          .get(`/api/movies/${sampleMovie.id}/reviews`)
+          .set("Accept", "application/json")
+          .set("Authorization", token)
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.a("array");
+            expect(res.body.length).to.equal(10);
+            // expect(res.body).to.have.property("author");
+            
+          });
+      });
+    });
+  });
+
 });

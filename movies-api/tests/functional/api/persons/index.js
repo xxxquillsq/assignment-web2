@@ -52,6 +52,17 @@ describe("Persons endpoint", () => {
           done();
         });
     });
+    it("should not return 20 popular persons and get an error massage", () => {
+      request(api)
+        .get("/api/persons")
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect({
+          success: false,
+          status_code: 34,
+          status_message: "The resource you requested could not be found.",
+        });
+    });
   });
 
   describe("GET /persons/:id", () => {
@@ -60,6 +71,7 @@ describe("Persons endpoint", () => {
         return request(api)
           .get(`/api/persons/${samplePerson.id}`)
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect(200)
           .then((res) => {
@@ -72,6 +84,7 @@ describe("Persons endpoint", () => {
         return request(api)
           .get("/api/persons/xxx")
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect({
             success: false,
@@ -88,6 +101,7 @@ describe("Persons endpoint", () => {
         return request(api)
           .get(`/api/persons/${samplePerson.id}/movie_credits`)
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect(200)
           .then((res) => {

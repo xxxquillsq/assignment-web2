@@ -59,6 +59,7 @@ describe("topratedMovies endpoint", () => {
         return request(api)
           .get(`/api/toprated/${sampleMovie.id}`)
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect(200)
           .then((res) => {
@@ -71,6 +72,7 @@ describe("topratedMovies endpoint", () => {
         return request(api)
           .get("/api/toprated/xxx")
           .set("Accept", "application/json")
+          .set("Authorization", token)
           .expect("Content-Type", /json/)
           .expect({
             success: false,
